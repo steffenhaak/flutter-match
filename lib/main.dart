@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         child: BlocBuilder(
           bloc: _userBloc,
           builder: (_, UserState userState) {
-            if (userState.firstName != null)
+            if (userState.userProfile != null)
               return ProfileEditor();
             else
               return OnBoardScreen();
@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
         title: BlocBuilder(
           bloc: BlocProvider.of<UserBloc>(context),
           builder: (context, UserState userState) =>
-              Text('Hallo ${userState.firstName}'),
+              Text('Hallo ${userState.userProfile.firstName}'),
         ),
         actions: <Widget>[
           IconButton(

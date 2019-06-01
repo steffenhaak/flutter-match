@@ -1,6 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_match/built_value/user_profile.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_match/api.dart';
+
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   @override
@@ -8,9 +14,38 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
+    debugPrint("$event");
     if (event is UserInit) {
-      yield UserState(firstName: (event as UserInit).firstName);
+      yield UserState(userProfile: UserProfile((b) => b
+        ..firstName = event.firstName
+        ..status = 'Available'
+        ..topics.replace([])
+        ..packages.replace([])
+      ));
+      debugPrint("TEST");
+      yield* _createUser(event.firstName);
+
     }
+  }
+
+  Stream<UserState> _createUser(String firstName) async* {
+
+      try {
+        debugPrint("$firstName");
+        Response response = await Dio().post("http://$apiHost/user/create", data: { 'firstName': firstName });
+        debugPrint(response.toString());
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          final userId = response.data['userId'];
+          yield UserState(userProfile: currentState.userProfile.rebuild((b) => b..userId = userId));
+          debugPrint('Successfully create user');
+        } else {
+          yield UserState(userProfile: null);
+        }
+
+      } catch (e) {
+        print(e);
+        yield UserState(userProfile: null);
+      }
   }
 }
 
@@ -24,9 +59,9 @@ class UserInit extends UserEvent {
 
 class UserState extends Equatable {
 
-  final String firstName;
+  final UserProfile userProfile;
 
-  UserState({this.firstName}) : super([firstName]);
+  UserState({this.userProfile}) : super([userProfile]);
 
 }
 

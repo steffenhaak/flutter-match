@@ -24,7 +24,7 @@ class DetailedProfileView extends StatelessWidget {
                 child: BlocBuilder(
                   bloc: BlocProvider.of<UserBloc>(context),
                   builder: (context, UserState userState) => Text(
-                        userState.firstName,
+                        userState.userProfile.firstName,
                         style: TextStyle(fontSize: 30.0),
                       ),
                 ),
