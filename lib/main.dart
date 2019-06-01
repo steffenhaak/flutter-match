@@ -5,8 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_match/bloc/user_bloc.dart';
+import 'package:flutter_match/bloc/users_bloc.dart';
 import 'package:flutter_match/screens/detailedProfileView.dart';
 import 'package:flutter_match/screens/onboardScreen.dart';
+import 'package:flutter_match/screens/profileEditor.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,6 +22,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final UserBloc _userBloc = UserBloc();
+  final UsersBloc _usersBloc = UsersBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           bloc: _userBloc,
           builder: (_, UserState userState) {
             if (userState.firstName != null)
-              return DetailedProfileView();
+              return ProfileEditor();
             else
               return OnBoardScreen();
           },
