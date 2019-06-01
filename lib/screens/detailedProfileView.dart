@@ -15,7 +15,7 @@ class DetailedProfileView extends StatelessWidget {
               width: 80.0,
               child: Icon(
                 Icons.person,
-                size: 60.0,
+                size: 50.0,
               ),
             ),
             Container(
@@ -25,7 +25,7 @@ class DetailedProfileView extends StatelessWidget {
                   bloc: BlocProvider.of<UserBloc>(context),
                   builder: (context, UserState userState) => Text(
                         userState.firstName,
-                        style: TextStyle(fontSize: 35.0),
+                        style: TextStyle(fontSize: 30.0),
                       ),
                 ),
               ),
