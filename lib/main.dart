@@ -10,6 +10,8 @@ import 'package:flutter_match/screens/onboardScreen.dart';
 
 void main() => runApp(MyApp());
 
+const serverHost = "localhost:9000";
+
 /// This Widget is the main application widget.
 class MyApp extends StatefulWidget {
   static const String _title = 'Flutter Code Sample';

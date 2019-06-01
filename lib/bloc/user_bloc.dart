@@ -9,7 +9,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is UserInit) {
-      yield UserState(firstName: (event as UserInit).firstName);
+      yield UserState(firstName: event.firstName);
     }
   }
 }
