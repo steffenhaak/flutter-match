@@ -55,7 +55,7 @@ class OnBoardScreenState extends State<OnBoardScreen> {
             padding: EdgeInsets.all(_padding),
             child: Center(
               child: Text(
-                "To use this app, just enter Your name in the field below and You are ready to-go :)",
+                "To use this app, just enter Your name in the field below and You are ready to go :)",
                 style: new TextStyle(
                   fontSize: _smallFontSize,
                 ),
