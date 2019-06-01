@@ -9,6 +9,7 @@ import 'package:flutter_match/bloc/users_bloc.dart';
 import 'package:flutter_match/screens/detailedProfileView.dart';
 import 'package:flutter_match/screens/onboardScreen.dart';
 import 'package:flutter_match/screens/profileEditor.dart';
+import 'package:flutter_match/screens/userListView.dart';
 
 void main() => runApp(MyApp());
 
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
           bloc: _userBloc,
           builder: (_, UserState userState) {
             if (userState.userProfile != null)
-              return ProfileEditor();
+              return MainScreen();
             else
               return OnBoardScreen();
           },
@@ -71,7 +72,7 @@ class MainScreen extends StatelessWidget {
           ),
         ],
       ),
-      // body: UserListView(),
+      body: UserListView(),
     );
   }
 }

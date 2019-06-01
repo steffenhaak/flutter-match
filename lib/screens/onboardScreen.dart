@@ -16,8 +16,8 @@ class OnBoardScreenState extends State<OnBoardScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _textController.dispose();
+    super.dispose();
   }
 
   @override
