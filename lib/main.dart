@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_match/bloc/user_bloc.dart';
+import 'package:flutter_match/screens/onboard.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
             if (userState.firstName != null)
               return MainScreen();
             else
-              return OnboardingScreen();
+              return OnBoardScreen();
           },
         ),
       ),
@@ -60,29 +61,6 @@ class MainScreen extends StatelessWidget {
             tooltip: 'Open shopping cart',
             onPressed: () {
               // Implement navigation to shopping cart page here...
-              BlocProvider.of<UserBloc>(context)
-                  .dispatch(UserInit(firstName: 'Steffen'));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OnboardingScreen extends StatelessWidget {
-  OnboardingScreen({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Onboarding'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            tooltip: 'Open shopping cart',
-            onPressed: () {
               BlocProvider.of<UserBloc>(context)
                   .dispatch(UserInit(firstName: 'Steffen'));
             },
