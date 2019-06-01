@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_match/bloc/user_bloc.dart';
 import 'package:flutter_match/bloc/users_bloc.dart';
+import 'package:flutter_match/bloc/web_socket_bloc.dart';
 import 'package:flutter_match/screens/detailedProfileView.dart';
 import 'package:flutter_match/screens/onboardScreen.dart';
 import 'package:flutter_match/screens/profileEditor.dart';
@@ -22,8 +23,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final UserBloc _userBloc = UserBloc();
-  final UsersBloc _usersBloc = UsersBloc();
+
+  WebSocketBloc _webSocketBloc;
+  UserBloc _userBloc;
+  UsersBloc _usersBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _usersBloc = UsersBloc();
+    _webSocketBloc = WebSocketBloc(usersBloc: _usersBloc);
+    _userBloc = UserBloc(webSocketBloc: _webSocketBloc);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,7 @@ class _MyAppState extends State<MyApp> {
       home: BlocProviderTree(
         blocProviders: [
           BlocProvider<UserBloc>(bloc: _userBloc),
+          BlocProvider<UsersBloc>(bloc: _usersBloc),
         ],
         child: BlocBuilder(
           bloc: _userBloc,

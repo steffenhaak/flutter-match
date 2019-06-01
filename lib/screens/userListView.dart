@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_match/bloc/users_bloc.dart';
 
 class UserListView extends StatefulWidget {
   @override
@@ -55,7 +57,7 @@ class UserListViewState extends State<UserListView> {
 
   Widget userCard(item) {
     return Card(
-        child: Padding(padding: EdgeInsets.all(8.0), child: Text(item)));
+        child: Padding(padding: EdgeInsets.all(8.0), child: Text(item.toString())));
   }
 
   @override
@@ -79,13 +81,19 @@ class UserListViewState extends State<UserListView> {
           ),
         ),
         Expanded(
-            child: ListView.builder(
+            child: BlocBuilder(
+        bloc: BlocProvider.of<UsersBloc>(context),
+    builder: (context, UsersState userState) =>
+    ListView.builder(
           shrinkWrap: true,
-          itemCount: _items.length,
+          itemCount: userState.userProfiles.length,
           itemBuilder: (context, position) {
-            return userCard(_items[position]);
+            debugPrint(userState.userProfiles.toString());
+            return userCard(userState.userProfiles[position]);
           },
-        )),
+        ),
+        ),
+    ),
       ],
     ));
   }

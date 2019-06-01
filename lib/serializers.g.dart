@@ -20,6 +20,7 @@ part of serializers;
 // ignore_for_file: test_types_in_equals
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(UserCreated.serializer)
       ..add(UserProfile.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),

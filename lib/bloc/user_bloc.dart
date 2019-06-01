@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_match/bloc/web_socket_bloc.dart';
 import 'package:flutter_match/built_value/user_profile.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
@@ -9,6 +9,11 @@ import 'package:flutter_match/api.dart';
 
 
 class UserBloc extends Bloc<UserEvent, UserState> {
+
+  UserBloc({@required this.webSocketBloc});
+
+  final WebSocketBloc webSocketBloc;
+
   @override
   UserState get initialState => UserState();
 
@@ -38,6 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           final userId = response.data['userId'];
           yield UserState(userProfile: currentState.userProfile.rebuild((b) => b..userId = userId));
           debugPrint('Successfully create user');
+          webSocketBloc.dispatch(WebSocketConnect(userId));
         } else {
           yield UserState(userProfile: null);
         }

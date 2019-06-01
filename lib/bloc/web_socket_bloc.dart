@@ -6,6 +6,8 @@ import 'package:bloc/bloc.dart';
 import 'package:built_value/serializer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_match/bloc/users_bloc.dart';
+import 'package:flutter_match/built_value/user_created.dart';
 import 'package:flutter_match/serializers.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
@@ -22,7 +24,8 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> with WidgetsBin
   @override
   WebSocketState get initialState => WebSocketDisconnected(null);
 
-  WebSocketBloc() {
+  final UsersBloc usersBloc;
+  WebSocketBloc({@required this.usersBloc}) {
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -41,7 +44,7 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> with WidgetsBin
   }
 
   Stream<WebSocketState> _handleConnect(WebSocketConnect event) async* {
-    if (state is WebSocketDisconnected) {
+    if (currentState is WebSocketDisconnected) {
       try {
         final url = "ws://$apiHost/ws/${event.userId}";
         debugPrint('Connecting to websocket: ' + url);
@@ -74,13 +77,13 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> with WidgetsBin
     try {
       final dataString = event.toString();
       final jsonData = _parseJson(dataString);
-          final data = serializers.deserialize(jsonData,
-              specifiedType: FullType(Object));
-          if (jsonData['eventType'] == 'PING') {
-            debugPrint('websocket PING');
-          } else {
-            this.dispatch(DataReceived(data: data));
-          }
+      if (jsonData['eventType'] == 'PING') {
+        debugPrint('websocket PING');
+      } else {
+        final data = serializers.deserialize(jsonData,
+            specifiedType: FullType(UserCreated));
+        usersBloc.dispatch(AddUser(data: data));
+      }
     } catch (e) {
       debugPrint(
           'Could not parse web socket event to JSON: ' + event.toString());
@@ -137,7 +140,7 @@ abstract class WebSocketEvent {
 }
 
 class WebSocketConnect extends WebSocketEvent {
-  final Uuid userId;
+  final String userId;
 
   WebSocketConnect(this.userId);
 }
@@ -159,16 +162,16 @@ class DataReceived extends WebSocketEvent {
 
 
 abstract class WebSocketState extends Equatable {
-  Uuid userId;
+  String userId;
 }
 class WebSocketDisconnected extends WebSocketState {
-  final Uuid userId;
+  final String userId;
 
   WebSocketDisconnected(this.userId);
 
 }
 class WebSocketConnected extends WebSocketState {
-  final Uuid userId;
+  final String userId;
 
   WebSocketConnected(this.userId);
 
