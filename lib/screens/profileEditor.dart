@@ -74,12 +74,14 @@ class MyCustomFormState extends State<MyCustomForm> {
   //
   // Note: This is a GlobalKey<FormState>, not a GlobalKey<MyCustomFormState>!
   final _formKey = GlobalKey<FormState>();
-  int _radioValue1 = 0;
-  List<String> topics = List<String>();
+  List<String> topics = <String>[
+    "Channel",
+    "Widgets",
+    "Web",
+  ];
+  List<bool> checkboxes = <bool>[false, false, false];
 
-  void radioHandler(int value) {
-
-  }
+  void radioHandler(int value) {}
 
   @override
   Widget build(BuildContext context) {
@@ -101,31 +103,37 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
             Row(
               children: <Widget>[
-                Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  onChanged: (value) => radioHandler(value),
-                ),
+                Checkbox(
+                    value: checkboxes[0],
+                    onChanged: (bool value) {
+                      setState(() {
+                        checkboxes[0] = value;
+                      });
+                    }),
                 Text("Channel"),
               ],
             ),
             Row(
               children: <Widget>[
-                Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  onChanged: (value) => radioHandler(value),
-                ),
+                Checkbox(
+                    value: checkboxes[1],
+                    onChanged: (bool value) {
+                      setState(() {
+                        checkboxes[1] = value;
+                      });
+                    }),
                 Text("Widgets"),
               ],
             ),
             Row(
               children: <Widget>[
-                Radio(
-                  value: 0,
-                  groupValue: _radioValue1,
-                  onChanged: (value) => radioHandler(value),
-                ),
+                Checkbox(
+                    value: checkboxes[2],
+                    onChanged: (bool value) {
+                      setState(() {
+                        checkboxes[2] = value;
+                      });
+                    }),
                 Text("Web"),
               ],
             ),
@@ -139,6 +147,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                     // If the form is valid, we want to show a Snackbar
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')));
+
+                    
                   }
                 },
                 child: Text('Submit'),
