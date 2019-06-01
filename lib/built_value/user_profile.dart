@@ -15,17 +15,19 @@ abstract class UserProfile implements Built<UserProfile, UserProfileBuilder> {
 
   factory UserProfile([updates(UserProfileBuilder b)]) = _$UserProfile;
 
-  @BuiltValueField(wireName: 'uuid')
-  String get uuid;
+  @BuiltValueField(wireName: 'userId')
+  @nullable
+  String get userId;
   @BuiltValueField(wireName: 'status')
   String get status;
-  @BuiltValueField(wireName: 'username')
-  String get username;
+  @BuiltValueField(wireName: 'firstName')
+  String get firstName;
   @BuiltValueField(wireName: 'topics')
   BuiltList<String> get topics;
   @BuiltValueField(wireName: 'packages')
   BuiltList<String> get packages;
   @BuiltValueField(wireName: 'telephoneNumber')
+  @nullable
   String get telephoneNumber;
   String toJson() {
     return json.encode(serializers.serializeWith(UserProfile.serializer, this));

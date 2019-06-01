@@ -31,13 +31,11 @@ class _$UserProfileSerializer implements StructuredSerializer<UserProfile> {
   Iterable serialize(Serializers serializers, UserProfile object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
-      'uuid',
-      serializers.serialize(object.uuid, specifiedType: const FullType(String)),
       'status',
       serializers.serialize(object.status,
           specifiedType: const FullType(String)),
-      'username',
-      serializers.serialize(object.username,
+      'firstName',
+      serializers.serialize(object.firstName,
           specifiedType: const FullType(String)),
       'topics',
       serializers.serialize(object.topics,
@@ -47,10 +45,19 @@ class _$UserProfileSerializer implements StructuredSerializer<UserProfile> {
       serializers.serialize(object.packages,
           specifiedType:
               const FullType(BuiltList, const [const FullType(String)])),
-      'telephoneNumber',
-      serializers.serialize(object.telephoneNumber,
-          specifiedType: const FullType(String)),
     ];
+    if (object.userId != null) {
+      result
+        ..add('userId')
+        ..add(serializers.serialize(object.userId,
+            specifiedType: const FullType(String)));
+    }
+    if (object.telephoneNumber != null) {
+      result
+        ..add('telephoneNumber')
+        ..add(serializers.serialize(object.telephoneNumber,
+            specifiedType: const FullType(String)));
+    }
 
     return result;
   }
@@ -66,16 +73,16 @@ class _$UserProfileSerializer implements StructuredSerializer<UserProfile> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'uuid':
-          result.uuid = serializers.deserialize(value,
+        case 'userId':
+          result.userId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'status':
           result.status = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
-        case 'username':
-          result.username = serializers.deserialize(value,
+        case 'firstName':
+          result.firstName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
         case 'topics':
@@ -103,11 +110,11 @@ class _$UserProfileSerializer implements StructuredSerializer<UserProfile> {
 
 class _$UserProfile extends UserProfile {
   @override
-  final String uuid;
+  final String userId;
   @override
   final String status;
   @override
-  final String username;
+  final String firstName;
   @override
   final BuiltList<String> topics;
   @override
@@ -119,30 +126,24 @@ class _$UserProfile extends UserProfile {
       (new UserProfileBuilder()..update(updates)).build();
 
   _$UserProfile._(
-      {this.uuid,
+      {this.userId,
       this.status,
-      this.username,
+      this.firstName,
       this.topics,
       this.packages,
       this.telephoneNumber})
       : super._() {
-    if (uuid == null) {
-      throw new BuiltValueNullFieldError('UserProfile', 'uuid');
-    }
     if (status == null) {
       throw new BuiltValueNullFieldError('UserProfile', 'status');
     }
-    if (username == null) {
-      throw new BuiltValueNullFieldError('UserProfile', 'username');
+    if (firstName == null) {
+      throw new BuiltValueNullFieldError('UserProfile', 'firstName');
     }
     if (topics == null) {
       throw new BuiltValueNullFieldError('UserProfile', 'topics');
     }
     if (packages == null) {
       throw new BuiltValueNullFieldError('UserProfile', 'packages');
-    }
-    if (telephoneNumber == null) {
-      throw new BuiltValueNullFieldError('UserProfile', 'telephoneNumber');
     }
   }
 
@@ -157,9 +158,9 @@ class _$UserProfile extends UserProfile {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is UserProfile &&
-        uuid == other.uuid &&
+        userId == other.userId &&
         status == other.status &&
-        username == other.username &&
+        firstName == other.firstName &&
         topics == other.topics &&
         packages == other.packages &&
         telephoneNumber == other.telephoneNumber;
@@ -170,8 +171,8 @@ class _$UserProfile extends UserProfile {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, uuid.hashCode), status.hashCode),
-                    username.hashCode),
+                $jc($jc($jc(0, userId.hashCode), status.hashCode),
+                    firstName.hashCode),
                 topics.hashCode),
             packages.hashCode),
         telephoneNumber.hashCode));
@@ -180,9 +181,9 @@ class _$UserProfile extends UserProfile {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('UserProfile')
-          ..add('uuid', uuid)
+          ..add('userId', userId)
           ..add('status', status)
-          ..add('username', username)
+          ..add('firstName', firstName)
           ..add('topics', topics)
           ..add('packages', packages)
           ..add('telephoneNumber', telephoneNumber))
@@ -193,17 +194,17 @@ class _$UserProfile extends UserProfile {
 class UserProfileBuilder implements Builder<UserProfile, UserProfileBuilder> {
   _$UserProfile _$v;
 
-  String _uuid;
-  String get uuid => _$this._uuid;
-  set uuid(String uuid) => _$this._uuid = uuid;
+  String _userId;
+  String get userId => _$this._userId;
+  set userId(String userId) => _$this._userId = userId;
 
   String _status;
   String get status => _$this._status;
   set status(String status) => _$this._status = status;
 
-  String _username;
-  String get username => _$this._username;
-  set username(String username) => _$this._username = username;
+  String _firstName;
+  String get firstName => _$this._firstName;
+  set firstName(String firstName) => _$this._firstName = firstName;
 
   ListBuilder<String> _topics;
   ListBuilder<String> get topics =>
@@ -224,9 +225,9 @@ class UserProfileBuilder implements Builder<UserProfile, UserProfileBuilder> {
 
   UserProfileBuilder get _$this {
     if (_$v != null) {
-      _uuid = _$v.uuid;
+      _userId = _$v.userId;
       _status = _$v.status;
-      _username = _$v.username;
+      _firstName = _$v.firstName;
       _topics = _$v.topics?.toBuilder();
       _packages = _$v.packages?.toBuilder();
       _telephoneNumber = _$v.telephoneNumber;
@@ -254,9 +255,9 @@ class UserProfileBuilder implements Builder<UserProfile, UserProfileBuilder> {
     try {
       _$result = _$v ??
           new _$UserProfile._(
-              uuid: uuid,
+              userId: userId,
               status: status,
-              username: username,
+              firstName: firstName,
               topics: topics.build(),
               packages: packages.build(),
               telephoneNumber: telephoneNumber);

@@ -12,8 +12,6 @@ import 'package:flutter_match/screens/profileEditor.dart';
 
 void main() => runApp(MyApp());
 
-const serverHost = "localhost:9000";
-
 /// This Widget is the main application widget.
 class MyApp extends StatefulWidget {
   static const String _title = 'Flutter Code Sample';
@@ -37,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         child: BlocBuilder(
           bloc: _userBloc,
           builder: (_, UserState userState) {
-            if (userState.firstName != null)
+            if (userState.userProfile != null)
               return ProfileEditor();
             else
               return OnBoardScreen();
@@ -59,7 +57,7 @@ class MainScreen extends StatelessWidget {
         title: BlocBuilder(
           bloc: BlocProvider.of<UserBloc>(context),
           builder: (context, UserState userState) =>
-              Text('Hallo ${userState.firstName}'),
+              Text('Hallo ${userState.userProfile.firstName}'),
         ),
         actions: <Widget>[
           IconButton(

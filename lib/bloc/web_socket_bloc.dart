@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_match/serializers.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_match/main.dart';
+import 'package:flutter_match/api.dart';
 import 'package:uuid/uuid.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -43,7 +43,7 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> with WidgetsBin
   Stream<WebSocketState> _handleConnect(WebSocketConnect event) async* {
     if (state is WebSocketDisconnected) {
       try {
-        final url = "ws://$serverHost/ws/${event.userId}";
+        final url = "ws://$apiHost/ws/${event.userId}";
         debugPrint('Connecting to websocket: ' + url);
         this._channel = IOWebSocketChannel.connect(url);
 
