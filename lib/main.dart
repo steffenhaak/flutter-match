@@ -5,7 +5,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_match/bloc/user_bloc.dart';
-import 'package:flutter_match/screens/onboard.dart';
+import 'package:flutter_match/screens/onboardScreen.dart';
+// import 'package:flutter_match/screens/userListView.dart';
 
 void main() => runApp(MyApp());
 
@@ -57,7 +58,7 @@ class MainScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.verified_user),
             tooltip: 'Open shopping cart',
             onPressed: () {
               // Implement navigation to shopping cart page here...
@@ -67,6 +68,7 @@ class MainScreen extends StatelessWidget {
           ),
         ],
       ),
+      // body: UserListView(),
     );
   }
 }

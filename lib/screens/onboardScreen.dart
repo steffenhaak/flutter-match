@@ -12,6 +12,14 @@ class OnBoardScreen extends StatefulWidget {
 }
 
 class OnBoardScreenState extends State<OnBoardScreen> {
+  final _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _textController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +75,7 @@ class OnBoardScreenState extends State<OnBoardScreen> {
                     border: InputBorder.none,
                     hintText: 'Your name',
                   ),
+                  controller: _textController,
                 ),
               ),
             ),
@@ -76,7 +85,7 @@ class OnBoardScreenState extends State<OnBoardScreen> {
               padding: EdgeInsets.all(10.0),
               child: RaisedButton(
                 onPressed: () => BlocProvider.of<UserBloc>(context).dispatch(
-                      UserInit(firstName: 'Steffen'),
+                      UserInit(firstName: _textController.text ),
                     ),
                 child: Text("Join"),
               ),
