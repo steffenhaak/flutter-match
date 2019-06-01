@@ -3,38 +3,88 @@
 // This sample shows adding an action to an [AppBar] that opens a shopping cart.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_match/bloc/user_bloc.dart';
 
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   static const String _title = 'Flutter Code Sample';
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final UserBloc _userBloc = UserBloc();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      home: MyStatelessWidget(),
+      title: MyApp._title,
+      home: BlocProviderTree(
+        blocProviders: [
+          BlocProvider<UserBloc>(bloc: _userBloc),
+        ],
+        child: BlocBuilder(
+          bloc: _userBloc,
+          builder: (_, UserState userState) {
+            if (userState.firstName != null)
+              return MainScreen();
+            else
+              return OnboardingScreen();
+          },
+        ),
+      ),
     );
   }
 }
 
 /// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
+class MainScreen extends StatelessWidget {
+  MainScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ready, Set, Shop!'),
+        title: BlocBuilder(
+          bloc: BlocProvider.of<UserBloc>(context),
+          builder: (context, UserState userState) =>
+              Text('Hallo ${userState.firstName}'),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.shopping_cart),
             tooltip: 'Open shopping cart',
             onPressed: () {
               // Implement navigation to shopping cart page here...
-              print('Shopping cart opened.');
+              BlocProvider.of<UserBloc>(context)
+                  .dispatch(UserInit(firstName: 'Steffen'));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class OnboardingScreen extends StatelessWidget {
+  OnboardingScreen({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Onboarding'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            tooltip: 'Open shopping cart',
+            onPressed: () {
+              BlocProvider.of<UserBloc>(context)
+                  .dispatch(UserInit(firstName: 'Steffen'));
             },
           ),
         ],
